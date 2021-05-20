@@ -43,3 +43,10 @@ console.log(zombie1.hp)
 square = (x, y) => { Math.random() * x; return Math.pow(x, y) }
 
 console.log(square(2, 2))
+
+const obj = {a: 10, b: 20}
+const obj2 =  Object.assign(obj)
+obj2.x = 10
+console.log(obj)
+console.log(obj2)
+const {a, b} = obj

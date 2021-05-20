@@ -1,7 +1,5 @@
 import './App.css';
 import { Component } from 'react'
-import "./TodoList"
-import "./TodoItem"
 import TodoItem from './TodoItem';
 import TodoList from './TodoList';
 
@@ -11,8 +9,9 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      items: [],
-      currentItem: { text: "Первое дело", inner_key: 'first' }
+      items: [ { text: "Первое дело", key: 'first' }],
+      currentItem: { text: "Первое дело", key: 'first' }
+      //  дергаем LocalStorage при загрузке ComponentDidMount и писать в state 
     }
   }
   handleInput = event => {
@@ -21,6 +20,7 @@ class App extends Component {
     this.setState({
       currentItem,
     })
+    
   }
   addItem = e => {
     e.preventDefault()
@@ -31,17 +31,40 @@ class App extends Component {
         items,
         currentItem: { text: '', key: '' }
       })
+       // после обновления  state обновляем и localStorage
+       const jsonItems = JSON.stringify(items)
+       localStorage.setItem("items", jsonItems)
     }
   }
   deleteItem = key => {
+    console.log(key)
     const filteredItems = this.state.items.filter(item => {
       return item.key !== key
     })
+  
     console.log(filteredItems)
-    // this.setState({
-    //   items: filteredItems
-    // })
+    this.setState({
+      items: filteredItems,
+    })
   }
+
+
+  // удаление из LocalStorage  по ключу
+  // добавить Ant Design
+  // Добавить LocalStorage
+  // Добавить  API - Либо самописное либо Firebase 
+  // добавить компоненты, которые могут быть полезны - календарь с часами
+ // TypeScript
+ // Деплой c Docker nginx - отдавать статику  
+
+ componentDidMount(){
+   const items = JSON.parse(localStorage.getItem('items'))
+   console.log(items)
+   this.setState({
+     items,
+   })
+ }
+
   render() {
     return (
       <div className="App">

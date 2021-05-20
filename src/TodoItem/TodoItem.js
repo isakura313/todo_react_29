@@ -1,21 +1,23 @@
 import {Component} from 'react'
 import './index.css'
+import Button from '@material-ui/core/Button';
 
 
 class TodoItem extends Component{
     createTasks = item =>{
         return(
-            <div className = "TodoList" key={item.inner_key}> 
+            <div className = "TodoList" key={item.key}> 
                 <div className="TodoText"> {item.text} </div>
-                <button onClick = {this.props.deleteItem(item.inner_key)}> 
+                <Button variant="contained" color="secondary"
+                onClick = {() => this.props.deleteItem(item.key)}> 
                     Done
-                </button>
+                </Button>
             </div>
         )
     }
     render(){
-        const listEn = this.props.entries 
-        const ListItems = listEn.map(this.createTasks)
+        const listEn = this.props.entries // массив ключ - значений
+        const ListItems = listEn.map(this.createTasks) // метод 
         return <div> {ListItems} </div>
     }
 }
