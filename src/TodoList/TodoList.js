@@ -1,5 +1,8 @@
 import {Component} from 'react'
 import './index.css'
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import TextField from '@material-ui/core/TextField';
 
 const css = {
     color: "red",
@@ -11,11 +14,7 @@ const css = {
     color: "red"
   }
   const button = {
-    fontSize: "20px",
-    color: "white",
-    backgroundColor: "orange",
-    borderRadius: "5px",
-    marginLeft: "20px"
+    marginLeft: "10px",
   }
 
 class TodoList extends Component{
@@ -24,12 +23,19 @@ class TodoList extends Component{
         <div className="App" style={css}>
             <h1> Todo </h1>
             <form onSubmit= {this.props.addItem} >
-                <input type="text" style={input} 
+                <TextField  
+                type="text" style={input} 
                 ref={this.props.inputElement}
                 value = {this.props.currentItem.item}
                 onChange={this.props.handleInput}
                 />
-                <button style={button} type="submit">+</button>
+                <IconButton 
+                  type="submit"
+                  aria-label="add"
+                  style={button}
+                  >                  
+                    <AddIcon />
+                  </IconButton>
             </form>
         </div>
       );

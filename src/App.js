@@ -9,7 +9,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      items: [ { text: "Первое дело", key: 'first' }],
+      items: [{ text: "Первое дело", key: 'first' }],
       currentItem: { text: "Первое дело", key: 'first' }
       //  дергаем LocalStorage при загрузке ComponentDidMount и писать в state 
     }
@@ -20,7 +20,7 @@ class App extends Component {
     this.setState({
       currentItem,
     })
-    
+
   }
   addItem = e => {
     e.preventDefault()
@@ -31,9 +31,9 @@ class App extends Component {
         items,
         currentItem: { text: '', key: '' }
       })
-       // после обновления  state обновляем и localStorage
-       const jsonItems = JSON.stringify(items)
-       localStorage.setItem("items", jsonItems)
+      // после обновления  state обновляем и localStorage
+      const jsonItems = JSON.stringify(items)
+      localStorage.setItem("items", jsonItems)
     }
   }
   deleteItem = key => {
@@ -41,29 +41,38 @@ class App extends Component {
     const filteredItems = this.state.items.filter(item => {
       return item.key !== key
     })
-  
+
     console.log(filteredItems)
     this.setState({
       items: filteredItems,
     })
+    // текущий отфильтрованный items законсервировать в json
+    // обновить значение items в localStorage
+    const items = JSON.stringify(filteredItems)
+    localStorage.setItem('items', items)
   }
 
 
   // удаление из LocalStorage  по ключу
-  // добавить Ant Design
+  // добавить React UI
   // Добавить LocalStorage
   // Добавить  API - Либо самописное либо Firebase 
   // добавить компоненты, которые могут быть полезны - календарь с часами
- // TypeScript
- // Деплой c Docker nginx - отдавать статику  
+  // TypeScript
+  // Деплой c Docker nginx - отдавать статику  
 
- componentDidMount(){
-   const items = JSON.parse(localStorage.getItem('items'))
-   console.log(items)
-   this.setState({
-     items,
-   })
- }
+  componentDidMount() {
+    const items = JSON.parse(localStorage.getItem('items'))
+    if (items) {
+      this.setState({
+        items,
+      })
+    } else{
+      this.setState({
+        items:[]
+      })
+    }
+  }
 
   render() {
     return (
