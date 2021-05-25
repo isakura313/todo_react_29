@@ -8,3 +8,13 @@ const firebaseConfig = {
     messagingSenderId: "856861952347",
     appId: "1:856861952347:web:ea17e49f0677caa6e7f27e"
   };
+
+  firebase.initializeApp(firebaseConfig);
+
+  export default firebase
+  export const database = firebase.database()
+  export const auth = firebase.auth() 
+  export const storage = firebase.storage() // это для файлов
+  export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+  export const messaging = firebase.messaging()
+  // будет деплоиться на github  в отдельной папке или на  firebase

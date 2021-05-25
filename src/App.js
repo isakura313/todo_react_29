@@ -2,20 +2,24 @@ import './App.css';
 import { Component } from 'react'
 import TodoItem from './TodoItem';
 import TodoList from './TodoList';
-
+import database from './firebase'
+import Watch from './Watch/Watch'
 
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      items: [{ text: "Первое дело", key: 'first' }],
+      items: [],
       currentItem: { text: "Первое дело", key: 'first' }
       //  дергаем LocalStorage при загрузке ComponentDidMount и писать в state 
     }
+
+
   }
   handleInput = event => {
     const itemText = event.target.value
+    console.log(event.target.value)
     const currentItem = { text: itemText, key: Date.now() }
     this.setState({
       currentItem,
@@ -28,12 +32,16 @@ class App extends Component {
     if (newItem.text !== '') {
       const items = [...this.state.items, newItem]
       this.setState({
-        items,
-        currentItem: { text: '', key: '' }
+        items:items,
+        currentItem: { text: '', key: Date.now() }
       })
       // после обновления  state обновляем и localStorage
       const jsonItems = JSON.stringify(items)
       localStorage.setItem("items", jsonItems)
+      // const databaseRef = database().ref()
+      // const todosRef = databaseRef.child('todos')
+
+      // todosRef.push(this.currentItem)
     }
   }
   deleteItem = key => {
@@ -60,6 +68,8 @@ class App extends Component {
   // добавить компоненты, которые могут быть полезны - календарь с часами
   // TypeScript
   // Деплой c Docker nginx - отдавать статику  
+  // баг - поправить очищение input и поправить расположение кнопки удалить 
+  // поправить иконку удаления
 
   componentDidMount() {
     const items = JSON.parse(localStorage.getItem('items'))
@@ -77,6 +87,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Watch />
         <TodoList
           addItem={this.addItem}
           inputElement={this.inputElement}
