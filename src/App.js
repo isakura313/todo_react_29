@@ -12,7 +12,7 @@ class App extends Component {
     super()
     this.state = {
       items: [],
-      currentItem: { text: "Первое дело", key: 'first' }
+      currentItem: { text: "Первое дело", key: '' }
       //  дергаем LocalStorage при загрузке ComponentDidMount и писать в state 
     }
 
@@ -31,17 +31,28 @@ class App extends Component {
     e.preventDefault()
     const newItem = this.state.currentItem;
     if (newItem.text !== '') {
+      axios({
+        method: 'post',
+        url: "http://isakura3131.zonopo.ru/deals",
+        headers: {}, 
+        data: {
+          text: newItem.text
+        }
+      }).then((res) => {
+        newItem.key = res.data.id;
+      })
+
       const items = [...this.state.items, newItem]
       this.setState({
         items:items,
-        currentItem: { text: '', key: Date.now() }
+        currentItem: { text: '', key: newItem.key}
       })
+
       // после обновления  state обновляем и localStorage
-      const jsonItems = JSON.stringify(items)
-      localStorage.setItem("items", jsonItems)
+      // const jsonItems = JSON.stringify(items)
+      // localStorage.setItem("items", jsonItems)
       // const databaseRef = database().ref()
       // const todosRef = databaseRef.child('todos')
-
       // todosRef.push(this.currentItem)
     }
   }
