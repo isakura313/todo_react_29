@@ -4,6 +4,7 @@ import TodoItem from './TodoItem';
 import TodoList from './TodoList';
 import database from './firebase'
 import Watch from './Watch/Watch'
+import axios from 'axios';
 
 
 class App extends Component {
@@ -72,16 +73,23 @@ class App extends Component {
   // поправить иконку удаления
 
   componentDidMount() {
-    const items = JSON.parse(localStorage.getItem('items'))
-    if (items) {
-      this.setState({
-        items,
-      })
-    } else{
-      this.setState({
-        items:[]
-      })
-    }
+    // const items = JSON.parse(localStorage.getItem('items'))
+    axios.get("http://isakura3131.zonopo.ru/deals")
+    .then(res => {
+      const items = res.data.map((el)=> {
+        return {text: el.text, key: el.id}
+       })
+      this.setState({ items });
+    })
+    // if (items) {
+    //   this.setState({
+    //     items,
+    //   })
+    // } else{
+    //   this.setState({
+    //     items:[]
+    //   })
+    // }
   }
 
   render() {
