@@ -63,13 +63,24 @@ class App extends Component {
     })
 
     console.log(filteredItems)
+    axios({
+      method: 'delete',
+      url: `http://isakura3131.zonopo.ru/deal/${key}`
+    }).then((res)=>{
+      if(res.status == 200){
+        alert("Дело успешно удалено")
+      } else{
+        alert("Произошла ошибка во время удаления")
+      }
+    })
+
     this.setState({
       items: filteredItems,
     })
     // текущий отфильтрованный items законсервировать в json
     // обновить значение items в localStorage
-    const items = JSON.stringify(filteredItems)
-    localStorage.setItem('items', items)
+    // const items = JSON.stringify(filteredItems)
+    // localStorage.setItem('items', items)
   }
 
 
@@ -92,15 +103,6 @@ class App extends Component {
        })
       this.setState({ items });
     })
-    // if (items) {
-    //   this.setState({
-    //     items,
-    //   })
-    // } else{
-    //   this.setState({
-    //     items:[]
-    //   })
-    // }
   }
 
   render() {
