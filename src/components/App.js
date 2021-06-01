@@ -2,9 +2,10 @@ import './App.css';
 import { Component } from 'react'
 import TodoItem from './TodoItem';
 import TodoList from './TodoList';
-import database from './firebase'
 import Watch from './Watch/Watch'
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {addItems, deleteItem} from '../actions';
 
 
 class App extends Component {
@@ -15,8 +16,7 @@ class App extends Component {
       currentItem: { text: "Первое дело", key: '' }
       //  дергаем LocalStorage при загрузке ComponentDidMount и писать в state 
     }
-
-
+    connect()(App)
   }
   handleInput = event => {
     const itemText = event.target.value
@@ -47,6 +47,7 @@ class App extends Component {
         items:items,
         currentItem: { text: '', key: newItem.key}
       })
+      dispatch(addItems(newItem));
 
       // после обновления  state обновляем и localStorage
       // const jsonItems = JSON.stringify(items)
